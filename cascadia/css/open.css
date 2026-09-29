@@ -1,0 +1,888 @@
+/* ================================================================
+   open.css — user-friendly / "open" additions
+   Loaded last so these styles win over base/components/layout.
+   Goal: always-visible actions, clearer CTAs, easier scanning.
+   ================================================================ */
+
+/* ===== Skip link (a11y, keyboard users) ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 12px;
+  background: var(--brass);
+  color: var(--ink);
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  z-index: 2000;
+  border-radius: 2px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 12px; }
+
+/* ===== Nav layout override =====
+   Base components.css uses `grid-template-columns: 1fr auto 1fr` which
+   assumes exactly three direct children. We added `.nav-actions` as a new
+   wrapper, so the grid now has 4 kids and stacks. Switch to a flex layout
+   that adapts to however many children we have, without touching base. */
+nav.top {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 24px;
+}
+.nav-brand { justify-self: unset; margin-right: auto; }
+.nav-links {
+  justify-self: unset;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.nav-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.nav-status .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5FC27E;
+  box-shadow: 0 0 0 3px rgba(95, 194, 126, 0.18);
+}
+.nav-status.closed .dot { background: var(--mist); box-shadow: none; }
+.nav-status.closed .label::after { content: ' — Call for appointment'; color: var(--mist); }
+
+/* Nav CTA: quiet pill, thin border, small type */
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--bone-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.nav-cta:hover,
+.nav-cta:focus-visible {
+  border-color: var(--brass);
+  color: var(--bone);
+}
+
+/* ===== Hero: bigger CTAs + actionable scroll cue ===== */
+.btn-lg {
+  padding: 16px 28px !important;
+  font-size: 15px !important;
+  letter-spacing: 0.04em !important;
+}
+.hero-actions {
+  gap: 14px !important;
+  flex-wrap: wrap;
+}
+
+/* Kill the pulse line from the old layout so the new pill stands alone */
+.hero-scroll::after { display: none !important; }
+
+/* Centered, subtle scroll cue pill at the bottom of the hero */
+.hero-scroll {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px !important;
+  padding: 8px 14px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 26px !important;
+  transform: translateX(-50%);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.55);
+  backdrop-filter: blur(8px);
+  color: var(--bone-dim) !important;
+  font-family: var(--font-mono);
+  font-size: 10px !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.hero-scroll:hover,
+.hero-scroll:focus-visible {
+  border-color: var(--brass);
+  color: var(--bone) !important;
+}
+.hero-scroll .arrow {
+  display: inline-block;
+  animation: bounceDown 2.4s var(--ease-in-out) infinite;
+  color: var(--brass);
+}
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+/* Keep centered (not pushed to left: 20px) on narrow screens */
+@media (max-width: 900px) {
+  .hero-scroll { left: 50% !important; }
+}
+
+/* ===== Filter bar: grouped clusters, sort, sticky ===== */
+.filters {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin-bottom: 48px !important;
+  padding: 14px 0 !important;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 66px;
+  z-index: 40;
+}
+.filters-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.filters-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+.filter-cluster {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--line-strong);
+  flex-shrink: 0;
+}
+.filter-label {
+  margin-right: 0 !important;
+  color: var(--mist) !important;
+}
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* Tighter, quieter chips so the bar reads as a tool, not a headline */
+.filter-btn {
+  padding: 7px 14px !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+}
+
+/* Sort select — mono, minimal, no native chrome */
+.filter-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.filter-sort-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.filter-sort select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 7px 32px 7px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--brass) 50%),
+                    linear-gradient(135deg, var(--brass) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 50%, calc(100% - 12px) 50%;
+  background-size: 4px 4px, 4px 4px;
+  background-repeat: no-repeat;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.filter-sort select:hover,
+.filter-sort select:focus-visible { border-color: var(--brass); }
+.filter-sort select option { background: var(--ink); color: var(--bone); }
+
+.filter-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  white-space: nowrap;
+}
+.filter-count #inventoryCount { color: var(--bone); }
+
+@media (max-width: 900px) {
+  .filters {
+    position: static;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px 0 !important;
+    margin-bottom: 32px !important;
+  }
+  .filters-left {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .filters-left::-webkit-scrollbar { display: none; }
+  .filter-cluster { flex-wrap: nowrap; flex-shrink: 0; }
+  .filter-divider { display: none; }
+  .filters-right {
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+/* ================================================================
+   LUXURY GALLERY — vehicle cards refined for editorial presentation.
+   Treat each card like a plate in an auction catalogue: the photograph
+   leads, the chrome disappears, the typography whispers the details.
+   ================================================================ */
+
+/* Uniform 2-up grid with editorial breathing room */
+.vehicle-card {
+  grid-column: span 6 !important;
+  transition: transform 0.6s var(--ease-out);
+}
+.inventory {
+  gap: 80px 44px !important;
+}
+@media (min-width: 1601px) {
+  .inventory { gap: 96px 52px !important; }
+}
+@media (max-width: 900px) {
+  .vehicle-card { grid-column: span 12 !important; }
+  .inventory { gap: 56px 0 !important; }
+}
+
+/* ===== Image frame ===== */
+.vehicle-img-wrap {
+  aspect-ratio: 3 / 2 !important;            /* classic automotive proportion */
+  margin-bottom: 28px !important;
+  box-shadow: 0 1px 0 rgba(239, 234, 217, 0.04) inset,
+              0 24px 48px -24px rgba(0, 0, 0, 0.7);
+}
+/* Warm base treatment — subtle brass cast lifts the photos uniformly */
+.vehicle-img-wrap img {
+  filter: saturate(0.94) contrast(1.05) brightness(0.97) !important;
+  opacity: 0;
+  transition: transform 1.4s var(--ease-out),
+              filter 0.9s ease,
+              opacity 0.8s ease !important;
+}
+.vehicle-img-wrap img.is-loaded { opacity: 1; }
+/* Restrained hover: slow zoom (1.03) + brightness lift, never "e-commerce" */
+.vehicle-card:hover .vehicle-img-wrap img {
+  transform: scale(1.03) !important;
+  filter: saturate(1.04) contrast(1.08) brightness(1.02) !important;
+}
+/* Gradient that deepens on hover — magazine-plate depth */
+.vehicle-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.45) 0%, rgba(10, 10, 10, 0) 38%);
+  opacity: 0.75;
+  transition: opacity 0.6s ease;
+}
+.vehicle-card:hover .vehicle-img-wrap::after { opacity: 1; }
+
+/* ===== Tag + stock chips — refined, not stickered-on ===== */
+.vehicle-tag {
+  top: 18px !important;
+  left: 18px !important;
+  z-index: 3 !important;
+  padding: 5px 11px !important;
+  font-size: 9px !important;
+  letter-spacing: 0.24em !important;
+  background: rgba(10, 10, 10, 0.55) !important;
+  border-color: rgba(194, 160, 106, 0.45) !important;
+  font-weight: 500;
+}
+.vehicle-stock {
+  top: auto !important;
+  bottom: 16px !important;
+  right: 18px !important;
+  left: auto !important;
+  font-size: 9px !important;
+  letter-spacing: 0.26em !important;
+  color: rgba(239, 234, 217, 0.7) !important;
+  z-index: 3;
+}
+
+/* ===== Quick view — appears only on hover; position refined ===== */
+.vehicle-card-quick {
+  opacity: 0 !important;
+  top: auto !important;
+  right: 18px !important;
+  bottom: 46px !important;
+  left: auto !important;
+  z-index: 4 !important;
+  padding: 8px 14px !important;
+  font-size: 9px !important;
+  letter-spacing: 0.26em !important;
+  font-weight: 500;
+  background: rgba(10, 10, 10, 0.72) !important;
+  border: 1px solid rgba(194, 160, 106, 0.55) !important;
+  color: var(--bone) !important;
+  backdrop-filter: blur(10px);
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s var(--ease-out),
+              background 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+.vehicle-card:hover .vehicle-card-quick,
+.vehicle-card-quick:focus-visible {
+  opacity: 1 !important;
+  transform: translateY(0);
+}
+.vehicle-card-quick:hover,
+.vehicle-card-quick:focus-visible {
+  background: var(--brass) !important;
+  color: var(--ink) !important;
+  border-color: var(--brass) !important;
+}
+
+/* ===== Caption hierarchy ===== */
+.vehicle-meta {
+  gap: 28px !important;
+  align-items: flex-end !important;
+}
+.vehicle-year {
+  font-size: 10px !important;
+  letter-spacing: 0.28em !important;
+  color: var(--mist) !important;
+  margin-bottom: 12px !important;
+  text-transform: uppercase;
+}
+.vehicle-name {
+  font-size: clamp(26px, 2.4vw, 34px) !important;
+  font-variation-settings: "opsz" 144, "SOFT" 40 !important;
+  letter-spacing: -0.015em !important;
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 10px !important;
+}
+/* Hairline brass underline that grows from 0 on hover — subtle elegance */
+.vehicle-name::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 24px;
+  background: var(--brass);
+  opacity: 0.5;
+  transition: width 0.6s var(--ease-out), opacity 0.4s ease;
+}
+.vehicle-card:hover .vehicle-name::after {
+  width: 64px;
+  opacity: 1;
+}
+.vehicle-trim {
+  font-family: var(--font-display) !important;
+  font-style: italic;
+  font-size: 15px !important;
+  font-variation-settings: "opsz" 60, "SOFT" 60;
+  color: var(--bone-dim) !important;
+  letter-spacing: 0.005em;
+}
+
+/* Price, restrained and refined */
+.vehicle-price {
+  font-size: 24px !important;
+  font-variation-settings: "opsz" 144 !important;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.vehicle-price.inquire {
+  text-align: right;
+  gap: 3px !important;
+}
+.vehicle-price.inquire .inquire-label {
+  font-size: 10px !important;
+  letter-spacing: 0.24em !important;
+}
+.vehicle-price.inquire .inquire-phone {
+  font-family: var(--font-display) !important;
+  font-style: italic;
+  font-size: 15px !important;
+  color: var(--brass) !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* ===== Spec row — vertical dividers replace gaps for a catalogue feel ===== */
+.vehicle-specs {
+  margin-top: 20px !important;
+  padding-top: 18px !important;
+  gap: 0 !important;
+  font-size: 10px !important;
+  letter-spacing: 0.22em !important;
+}
+.vehicle-specs span {
+  padding: 0 18px;
+  border-left: 1px solid var(--line);
+  color: var(--bone-dim);
+}
+.vehicle-specs span:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+/* ===== Footer action — refined arrow cue ===== */
+.vehicle-card-actions {
+  margin-top: 22px !important;
+  padding-top: 18px !important;
+}
+.vehicle-card-view {
+  font-size: 10px !important;
+  letter-spacing: 0.28em !important;
+  color: var(--bone-dim) !important;
+  transition: color 0.3s ease, letter-spacing 0.4s var(--ease-out);
+}
+.vehicle-card-link:hover .vehicle-card-view,
+.vehicle-card-link:focus-visible .vehicle-card-view {
+  color: var(--brass) !important;
+  letter-spacing: 0.32em !important;
+}
+
+/* Explicit "View Details →" footer on every card */
+.vehicle-card-actions {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.vehicle-card-view {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+  transition: transform 0.3s var(--ease-out), color 0.3s ease;
+}
+.vehicle-card-link:hover .vehicle-card-view,
+.vehicle-card-link:focus-visible .vehicle-card-view {
+  color: var(--bone);
+  transform: translateX(4px);
+}
+
+/* "Call for Price" is now an inviting, actionable block — not a cold dismissal */
+.vehicle-price.inquire {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+.vehicle-price.inquire .inquire-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.vehicle-price.inquire .inquire-phone {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--bone);
+  letter-spacing: 0.02em;
+}
+
+/* ===== Floating desktop call pill (always visible while scrolling) =====
+   Kept small and quiet. Icon-only by default, number reveals on hover. */
+.floating-call {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 12px;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  color: var(--bone);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  transition: gap 0.3s var(--ease-out), padding 0.3s var(--ease-out),
+              background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.floating-call .ico { font-size: 14px; color: var(--brass); line-height: 1; }
+.floating-call .lbl {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.3s var(--ease-out);
+}
+.floating-call:hover,
+.floating-call:focus-visible {
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--brass);
+  color: var(--ink);
+  border-color: var(--brass);
+}
+.floating-call:hover .ico,
+.floating-call:focus-visible .ico { color: var(--ink); }
+.floating-call:hover .lbl,
+.floating-call:focus-visible .lbl { max-width: 200px; }
+
+/* ===== Mobile sticky action bar (Call · Book · Directions) ===== */
+.action-bar {
+  display: none; /* revealed at mobile breakpoint below */
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  background: rgba(10, 10, 10, 0.96);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line-strong);
+  padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+  gap: 8px;
+}
+.action-bar-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone);
+  text-decoration: none;
+  border-radius: 4px;
+  background: rgba(239, 234, 217, 0.04);
+  border: 1px solid var(--line);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.action-bar-btn .ico { font-size: 16px; color: var(--brass); line-height: 1; }
+.action-bar-btn:active { background: var(--brass); color: var(--ink); }
+.action-bar-btn:active .ico { color: var(--ink); }
+
+/* ===== Mobile menu extras (Call + Directions rows) ===== */
+.mobile-menu-call {
+  background: var(--brass);
+  color: var(--ink) !important;
+  padding: 14px 20px !important;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* ===== Responsive breakpoints ===== */
+
+/* ---- Laptop (1440px and below) ---- */
+@media (max-width: 1600px) {
+  /* Navbar: give nav-links flex:1 so they truly center between brand and CTA */
+  nav.top {
+    gap: 16px !important;
+    padding: 18px 28px !important;
+  }
+  nav.top.scrolled {
+    padding: 12px 28px !important;
+  }
+  .nav-links {
+    flex: 1;
+    justify-content: center;
+    gap: 28px;
+  }
+  .nav-brand {
+    flex-shrink: 0;
+  }
+
+  /* Hero: reduce title further for laptop viewport */
+  .hero-title {
+    font-size: clamp(48px, 8vw, 130px) !important;
+    margin-bottom: 24px !important;
+  }
+  .hero-lede {
+    max-width: 460px !important;
+    font-size: 15px !important;
+  }
+  .hero-content {
+    gap: 32px !important;
+  }
+  .hero { padding: 0 28px 60px !important; }
+
+  /* Inventory grid: tighter gaps on laptop */
+  .inventory {
+    gap: 56px 32px !important;
+  }
+
+  /* Trust bar: tighten spacing */
+  .trust-inner {
+    gap: 28px;
+    padding: 24px 28px;
+  }
+  .trust-row {
+    gap: 20px 32px;
+  }
+
+  /* Filter bar: slightly reduce gap */
+  .filters-left {
+    gap: 10px 16px;
+  }
+  .filter-btn {
+    padding: 6px 12px !important;
+    font-size: 10px !important;
+  }
+
+  /* Sections: reduce vertical breathing */
+  .editorial,
+  .visit {
+    padding: 80px 28px !important;
+  }
+  .editorial-inner,
+  .visit-inner {
+    gap: 48px !important;
+  }
+
+  /* Visit & Contact: shrink the heading so the form is reachable */
+  .visit-info h2 {
+    font-size: clamp(36px, 5vw, 64px) !important;
+    margin-bottom: 24px !important;
+  }
+  .visit-info > p {
+    font-size: 14px !important;
+    margin-bottom: 32px !important;
+  }
+  .visit-eyebrow {
+    margin-bottom: 16px !important;
+  }
+  .detail-grid {
+    gap: 28px 24px !important;
+    padding-top: 28px !important;
+  }
+  .detail .value {
+    font-size: 16px !important;
+  }
+
+  /* Contact form: tighten for laptop height */
+  .contact-form {
+    padding: 32px 28px !important;
+  }
+  .contact-form h3 {
+    font-size: 24px !important;
+    margin-bottom: 6px !important;
+  }
+  .contact-form .sub {
+    margin-bottom: 24px !important;
+    font-size: 12px !important;
+  }
+  .form-row {
+    margin-bottom: 14px !important;
+    gap: 14px !important;
+  }
+  .form-group label {
+    margin-bottom: 6px !important;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 8px 0 !important;
+    font-size: 14px !important;
+  }
+  .form-group textarea {
+    min-height: 60px !important;
+  }
+  .form-submit {
+    padding: 14px !important;
+    margin-top: 8px !important;
+  }
+
+  /* Experience/services grid: reduce card padding on laptop */
+  .experience-item {
+    padding: 40px 28px !important;
+  }
+  .experience-item .num {
+    margin-bottom: 20px !important;
+  }
+  .experience-item h3 {
+    font-size: 24px !important;
+    margin-bottom: 14px !important;
+  }
+}
+
+/* Drop the "Open now" pill before the phone pill so the nav stays clean
+   on ~1100px laptops before hitting the mobile breakpoint. */
+@media (max-width: 1100px) {
+  .nav-status { display: none; }
+}
+
+@media (max-width: 900px) {
+  /* Hide nav actions block (replaced by hamburger + sticky bar) */
+  .nav-actions { display: none; }
+  .floating-call { display: none; } /* sticky bar replaces this on mobile */
+
+  /* Reveal mobile action bar */
+  .action-bar { display: flex; }
+
+  /* Leave room for the sticky bar */
+  body { padding-bottom: 80px; }
+  footer { padding-bottom: 20px; }
+}
+
+@media (min-width: 901px) {
+  /* On desktop the sticky bar is hidden */
+  .action-bar { display: none; }
+}
+
+/* Shrink oversized hero on very short viewports so CTAs are reachable */
+@media (max-height: 720px) {
+  .hero { min-height: 620px !important; }
+}
+
+/* ===== Trust / partners bar =====
+   Muted row of services the dealership works with. Text-only by default;
+   swap each <li> for an <img> (grayscale, ~28px tall) when you have logos. */
+.trust {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(239, 234, 217, 0.015);
+}
+.trust-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.trust-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist);
+  flex-shrink: 0;
+}
+.trust-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 44px;
+  flex: 1;
+}
+.trust-row li {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  opacity: 0.72;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+.trust-row li:hover { opacity: 1; color: var(--bone); }
+.trust-row img {
+  max-height: 28px;
+  width: auto;
+  filter: grayscale(100%) brightness(1.4);
+  opacity: 0.6;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+.trust-row li:hover img { opacity: 1; filter: grayscale(0%); }
+
+@media (max-width: 700px) {
+  .trust-inner { padding: 20px 24px; gap: 20px; }
+  .trust-row { gap: 16px 28px; }
+  .trust-row li { font-size: 10px; }
+}
+
+/* ===== Inventory skeleton loaders =====
+   Prevents layout shift while js/ui.js populates the grid. Removed the moment
+   .inventory#inventory has real .vehicle-card children (handled implicitly —
+   innerHTML replaces the skeletons). */
+.vehicle-skeleton {
+  grid-column: span 6;
+}
+.vehicle-skeleton .sk-img {
+  aspect-ratio: 16 / 10;
+  border-radius: 2px;
+  background: linear-gradient(110deg,
+    rgba(239, 234, 217, 0.04) 8%,
+    rgba(239, 234, 217, 0.08) 18%,
+    rgba(239, 234, 217, 0.04) 33%);
+  background-size: 200% 100%;
+  animation: skShimmer 1.6s linear infinite;
+  margin-bottom: 24px;
+}
+.vehicle-skeleton .sk-line {
+  height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(110deg,
+    rgba(239, 234, 217, 0.04) 8%,
+    rgba(239, 234, 217, 0.08) 18%,
+    rgba(239, 234, 217, 0.04) 33%);
+  background-size: 200% 100%;
+  animation: skShimmer 1.6s linear infinite;
+  margin-top: 10px;
+}
+.vehicle-skeleton .sk-line-sm { height: 10px; width: 30%; }
+.vehicle-skeleton .sk-line-md { width: 55%; }
+@keyframes skShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vehicle-skeleton .sk-img,
+  .vehicle-skeleton .sk-line { animation: none; }
+}

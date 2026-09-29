@@ -1,0 +1,384 @@
+/* ================================================================
+   vdp.css — Vehicle Detail Page (per-car) layout
+   Loaded only on /inventory/<id>.html pages.
+   ================================================================ */
+
+.vdp {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 140px 40px 80px;
+}
+
+.vdp-crumbs {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 48px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.vdp-crumbs a { color: var(--bone-dim); }
+.vdp-crumbs a:hover { color: var(--brass); }
+.vdp-crumbs [aria-current="page"] { color: var(--bone); }
+
+.vdp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 80px;
+}
+
+.vdp-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--graphite);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.vdp-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vdp-head {
+  padding-top: 12px;
+}
+.vdp-head .eyebrow {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.vdp-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 5vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  margin-bottom: 28px;
+}
+.vdp-title em {
+  display: block;
+  font-style: italic;
+  color: var(--brass);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+  font-size: 0.7em;
+  margin-top: 6px;
+}
+
+.vdp-price {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+.vdp-price.inquire {
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+.vdp-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.vdp-specs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  margin-bottom: 80px;
+}
+.vdp-specs .spec {
+  padding: 28px 20px;
+  border-right: 1px solid var(--line);
+}
+.vdp-specs .spec:nth-child(4n) { border-right: none; }
+.vdp-specs .spec:nth-child(n+5) { border-top: 1px solid var(--line); }
+.vdp-specs .label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 8px;
+}
+.vdp-specs .value {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--bone);
+}
+
+.vdp-desc {
+  max-width: 780px;
+  margin: 0 auto 100px;
+  text-align: left;
+}
+.vdp-desc .eyebrow {
+  display: block;
+  margin-bottom: 20px;
+}
+.vdp-desc p {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.55;
+  color: var(--bone-dim);
+}
+
+.vdp-footer-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: center;
+  padding: 60px;
+  border: 1px solid var(--line-strong);
+  background: var(--obsidian);
+}
+.vdp-footer-cta h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.05;
+  margin: 10px 0 16px;
+}
+.vdp-footer-cta h2 em {
+  font-style: italic;
+  color: var(--brass);
+}
+.vdp-footer-cta p {
+  color: var(--bone-dim);
+  max-width: 56ch;
+}
+.vdp-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* Responsive — laptop */
+@media (max-width: 1600px) {
+  .vdp {
+    padding: 100px 28px 60px;
+  }
+  .vdp-crumbs {
+    margin-bottom: 32px;
+  }
+  .vdp-title {
+    font-size: clamp(34px, 4vw, 52px);
+    margin-bottom: 20px;
+  }
+  .vdp-hero {
+    margin-bottom: 48px;
+  }
+  .vdp-specs {
+    margin-bottom: 48px;
+  }
+  .vdp-desc {
+    margin: 0 auto 60px;
+  }
+  .vdp-footer-cta {
+    padding: 40px;
+  }
+}
+
+/* Responsive — tablet/mobile */
+@media (max-width: 980px) {
+  .vdp { padding: 110px 24px 60px; }
+  .vdp-hero { grid-template-columns: 1fr; gap: 36px; }
+  .vdp-specs { grid-template-columns: repeat(2, 1fr); }
+  .vdp-specs .spec:nth-child(2n) { border-right: none; }
+  .vdp-specs .spec:nth-child(2n+1) { border-right: 1px solid var(--line); }
+  .vdp-specs .spec:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .vdp-footer-cta { grid-template-columns: 1fr; padding: 36px; gap: 28px; }
+}
+
+/* ================================================================
+   VDP gallery — lead image + thumbnail grid inside the left column
+   of .vdp-hero. Styled so the existing generated markup
+     <div class="vdp-gallery">
+       <div style="position:relative;"><img/></div>   <!-- lead -->
+       <img/> <img/> ...                              <!-- thumbs -->
+     </div>
+   renders as a proper catalogue plate.
+   ================================================================ */
+.vdp-gallery {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+/* The <div style="position:relative;"> wrapping the first image
+   is the lead — span the full width. */
+.vdp-gallery > div {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--graphite);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+}
+.vdp-gallery > div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s var(--ease-out), filter 0.6s ease;
+  filter: saturate(0.96) contrast(1.04);
+}
+.vdp-gallery > div:hover img {
+  transform: scale(1.03);
+  filter: saturate(1.04) contrast(1.08);
+}
+
+/* Thumbnails — clean grid cells, brass hairline on hover */
+.vdp-gallery > img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--graphite);
+  cursor: zoom-in;
+  transition: border-color 0.3s ease, transform 0.4s var(--ease-out),
+              filter 0.3s ease;
+  filter: saturate(0.94) contrast(1.03);
+}
+.vdp-gallery > img:hover {
+  border-color: var(--brass);
+  transform: translateY(-2px);
+  filter: saturate(1.02) contrast(1.07);
+}
+
+/* Hide orphan elements left over from the base template
+   (the single hero <img> and .vehicle-stock that sit as siblings of
+   .vdp-gallery inside .vdp-hero). */
+.vdp-hero > img,
+.vdp-hero > .vehicle-stock {
+  display: none;
+}
+
+/* Override the 2-column hero so the gallery takes priority and the
+   head block sits alongside the lead image. When the gallery has many
+   thumbnails the head stays sticky so Call/Viewing CTAs are always near. */
+.vdp-hero {
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) !important;
+  gap: 48px !important;
+  align-items: start;
+}
+.vdp-head {
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 980px) {
+  .vdp-hero {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+  .vdp-head { position: static; }
+  .vdp-gallery { grid-template-columns: repeat(2, 1fr); }
+  .vdp-gallery > div { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 560px) {
+  .vdp-gallery { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
+/* ===== Lightbox ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.lightbox-img {
+  max-width: min(92vw, 1600px);
+  max-height: 86vh;
+  object-fit: contain;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+}
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: rgba(10, 10, 10, 0.5);
+  backdrop-filter: blur(8px);
+  color: var(--bone);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.lightbox-close svg,
+.lightbox-nav svg { display: block; }
+.lightbox-close {
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+}
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 54px;
+}
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  background: var(--brass);
+  color: var(--ink);
+  border-color: var(--brass);
+}
+.lightbox-count {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  background: rgba(10, 10, 10, 0.7);
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+@media (max-width: 560px) {
+  .lightbox-nav { width: 44px; height: 44px; font-size: 22px; }
+  .lightbox-prev { left: 12px; }
+  .lightbox-next { right: 12px; }
+  .lightbox-close { top: 16px; right: 16px; }
+}
+
